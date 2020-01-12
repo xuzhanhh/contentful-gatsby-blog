@@ -13,6 +13,10 @@
   height: 61.8vh;
   max-height: 400px;
 }
+.heroImage img {
+  object-fit: initial!important;
+
+}
 
 .heroDetails {
   position: absolute;

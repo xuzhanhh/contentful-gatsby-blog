@@ -2,6 +2,7 @@ import React from 'react'
 import Link from 'gatsby-link'
 import get from 'lodash/get'
 import Helmet from 'react-helmet'
+import BlogTitle from '../components/blog-title'
 import styles from './blog.module.css'
 import ArticlePreview from '../components/article-preview'
 
@@ -9,13 +10,14 @@ class BlogIndex extends React.Component {
   render() {
     const siteTitle = get(this, 'props.data.site.siteMetadata.title')
     const posts = get(this, 'props.data.allContentfulBlogPost.edges')
-
+    const [author] = get(this, 'props.data.allContentfulPerson.edges');
     return (
       <div style={{ background: '#fff' }}>
         <Helmet title={siteTitle} />
-        <div className={styles.hero}>
+        <BlogTitle data={author.node} />
+        {/* <div className={styles.hero}>
           Blog
-        </div>
+        </div> */}
         <div className="wrapper">
           <h2 className="section-headline">Recent articles</h2>
           <ul className="article-list">
@@ -52,6 +54,37 @@ export const pageQuery = graphql`
           description {
             childMarkdownRemark {
               html
+            }
+          }
+        }
+      }
+    }
+    allContentfulPerson(filter: { id: { eq: "c15jwOBqpxqSAOy2eOO4S0m" } }) {
+      edges {
+        node {
+          name
+          shortBio {
+            shortBio
+          }
+          # title
+          heroImage: image {
+            sizes(
+              maxWidth: 1180
+              maxHeight: 480
+              resizingBehavior: PAD
+              background: "rgb:000000"
+            ) {
+              ...GatsbyContentfulSizes_withWebp
+            }
+          }
+          image: blogImage {
+            sizes(
+              maxWidth: 1180
+              maxHeight: 480
+              resizingBehavior: PAD
+              background: "rgb:000000"
+            ) {
+              ...GatsbyContentfulSizes_withWebp
             }
           }
         }

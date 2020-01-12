@@ -7,7 +7,7 @@ import heroStyles from '../components/hero.module.css'
 
 class BlogPostTemplate extends React.Component {
   render() {
-    const post = get(this.props, 'data.contentfulBlogPost')
+    const post = get(this.props, 'data.contentfulFgn')
     const siteTitle = get(this.props, 'data.site.siteMetadata.title')
     console.log('post', post, siteTitle)
     return (
@@ -39,8 +39,8 @@ class BlogPostTemplate extends React.Component {
 export default BlogPostTemplate
 
 export const pageQuery = graphql`
-  query BlogPostBySlug($slug: String!) {
-    contentfulBlogPost(slug: { eq: $slug }) {
+  query FgnBySlug($slug: String!) {
+    contentfulFgn(slug: { eq: $slug }) {
       title
       publishDate(formatString: "MMMM Do, YYYY")
       heroImage {

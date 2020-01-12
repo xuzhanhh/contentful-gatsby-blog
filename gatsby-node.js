@@ -6,11 +6,20 @@ exports.createPages = ({ graphql, boundActionCreators }) => {
 
   return new Promise((resolve, reject) => {
     const blogPost = path.resolve('./src/templates/blog-post.js')
+    const fgnPost = path.resolve('./src/templates/fgn-post.js')
     resolve(
       graphql(
         `
           {
             allContentfulBlogPost {
+              edges {
+                node {
+                  title
+                  slug
+                }
+              }
+            }
+            allContentfulFgn {
               edges {
                 node {
                   title
@@ -27,10 +36,21 @@ exports.createPages = ({ graphql, boundActionCreators }) => {
         }
 
         const posts = result.data.allContentfulBlogPost.edges
+        const fgnPosts = result.data.allContentfulFgn.edges
+        console.log(fgnPosts, result.data)
         posts.forEach((post, index) => {
           createPage({
             path: `/blog/${post.node.slug}/`,
             component: blogPost,
+            context: {
+              slug: post.node.slug
+            },
+          })
+        })
+        fgnPosts.forEach((post, index) => {
+          createPage({
+            path: `/fgn/${post.node.slug}/`,
+            component: fgnPost,
             context: {
               slug: post.node.slug
             },
